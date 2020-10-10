@@ -104,29 +104,40 @@ def gameloop():
                         velocity_x = 0
             snake_x = snake_x + velocity_x
             snake_y = snake_y + velocity_y
-
+            #logic for food pickup
             if abs(snake_x - food_x)<10 and abs(snake_y - food_y)<10:
                 #score +=1
                 food_x = random.randint(20, screen_width - 30)
                 food_y = random.randint(60, screen_height -30)
                 snk_length +=5
-
+            #logic for home base deposit
             if abs(snake_x - homebase_x)<10 and abs (snake_y - homebase_y)<10:
-                homebase_storage = []
-                for i in homebase_storage:
-                    score += 1
-                #homebase_storage.extend(snk_length)
-                #snk_length = [1]
-                #score +=1 (this caused the score to rise as long as snake was at homebase, not what I wanted)
+                if snk_length == 1:
+                    pass
+                else:
+                    score = snk_length
+                    snk_length = 1
 
+
+                #homebase_storage = []
+                #for i in homebase_storage:
+                    #score += 1
+                #homebase_storage.extend(snk_length)
+                #nk_length = [1]
+                #score +=1 #(this caused the score to rise as long as snake was at homebase, not what I wanted)
+            #draw game window
             gameWindow.fill (white)
+            #draw score
             text_screen("Score: " + str(score), red, 5, 5)
+            #draw food
             pygame.draw.rect(gameWindow, red, [food_x, food_y, snake_size, snake_size])
+            #draw line at top of box below score (helps player understand map edge)
             pygame.draw.line(gameWindow, red, (0, 40), (900, 40), 5)
 
             head = []
             head.append(snake_x)
             head.append(snake_y)
+            #snake list begins empty, 
             snk_list.append(head)
 
             if len(snk_list)>snk_length:
@@ -145,3 +156,4 @@ def gameloop():
     pygame.quit()
     quit()
 gameloop()
+
